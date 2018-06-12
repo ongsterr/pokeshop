@@ -12,6 +12,8 @@ app.get('/', (req, res) => {
   res.redirect('/pokemon');
 })
 
+
+
 app.listen(3000, () => {
   console.log("Express server listening on port 3000 :D");
 })
