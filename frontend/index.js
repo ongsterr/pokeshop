@@ -12,7 +12,27 @@
 </li>
 */
 
-const pokemonList = document.querySelector('.collection')
+const pokeCollection = document.querySelector('.collection');
+const uri = 'http://localhost:3000'
+
+pokeCollection.addEventListener('click', deletePokemon);
+
+fetchPokemon()
+    .then(addPokeToCollection)
+    .catch( err => console.log(err))
+
+async function fetchPokemon() {
+    let response = await fetch(uri + '/pokemon');
+    let pokemon = response.json();
+    console.log(pokemon);
+    return pokemon;
+}
+
+function addPokeToCollection(pokemon) {
+    for (let i = 0; i <= pokemon.length; i++) {
+        createPokeCard(pokemon[i]);
+    }
+}
 
 function createPokeCard(pokemon) {
     let li = document.createElement('li');
@@ -38,5 +58,27 @@ function createPokeCard(pokemon) {
     button.classList.add('btn-flat');
     li.appendChild(button);
 
-    pokemonList.appendChild(li);
+    pokeCollection.appendChild(li);
+}
+
+function deletePokemon(e) {
+    if (e.target.tagName === 'BUTTON') {
+        let li = e.target.parentNode;
+        let {id} = li.dataset;
+
+        deleteRecord(id)
+            .then(pokemon => {
+                pokeCollection.removeChild(li)
+            })
+            .catch(err => console.log(err));
+    }
+}
+
+async function deleteRecord(pokemonID) {
+    let url = uri + '/pokemon/' + pokemonID;
+    let options = {
+        method: 'delete'
+    };
+    await fetch(url, options);
+    return pokemonID;
 }
