@@ -29,7 +29,7 @@ async function fetchPokemon() {
 }
 
 function addPokeToCollection(pokemon) {
-    for (let i = 0; i < pokemon.length; i++) {
+    for (let i = 0; i <= pokemon.length; i++) {
         createPokeCard(pokemon[i]);
     }
 }
@@ -40,22 +40,31 @@ function createPokeCard(pokemon) {
     li.classList.add('avatar');
     li.dataset.id = pokemon._id;
 
+    let thumb = document.createElement('IMG')
+    thumb.classList.add('circle')
+    thumb.src = 'https://vignette.wikia.nocookie.net/pokemon/images/4/46/Raichu.jpg/revision/latest?cb=20100224063009';
+    li.appendChild(thumb)
+
     let name = document.createElement('span');
     name.classList.add('title');
     name.textContent = pokemon.name;
+    name.style = 'font-weight: 600';
     li.appendChild(name);
 
-    let type = document.createElement('p');
-    type.textContent = pokemon.type;
-    li.appendChild(type);
+    let species = document.createElement('p');
+    species.textContent = `Species: ${pokemon.species}`;
+    species.style = 'text-indent: 10px';
+    li.appendChild(species);
 
     let price = document.createElement('p');
-    price.textContent = `$${(pokemon.price/100).toFixed(2)}`;
+    price.textContent = `Price: $${(pokemon.price/100).toFixed(2)}`;
+    price.style = 'text-indent: 10px; padding-bottom: 10px;';
     li.appendChild(price);
 
     let button = document.createElement('button');
-    button.textContent = 'Remove';
-    button.classList.add('btn-flat');
+    button.textContent = 'Sell';
+    button.classList.add('btn-small');
+    button.style = 'margin-left: 10px; padding: 0 40px;';
     li.appendChild(button);
 
     pokeCollection.appendChild(li);
@@ -64,6 +73,7 @@ function createPokeCard(pokemon) {
 function deletePokemon(e) {
     if (e.target.tagName === 'BUTTON') {
         let li = e.target.parentNode;
+        console.log(e.target);
         let {id} = li.dataset;
 
         deleteRecord(id)
@@ -81,4 +91,55 @@ async function deleteRecord(pokemonID) {
     };
     await fetch(url, options);
     return pokemonID;
+}
+
+// Form to add pokemon
+const form = document.querySelector('form');
+form.addEventListener('submit', submitPokemon)
+
+function submitPokemon(e) {
+
+    e.preventDefault()
+    const form = e.target.elements
+    const name = form.name.value
+    const species = form.species.value
+    const type = form.type.value
+
+    const CP = form.CP.value
+    const price = form.price.value*100
+
+
+
+    const pokemon = {
+        name,
+        species,
+        type,
+        CP,
+        price
+    }
+
+    // post book
+    postPokemon(pokemon)
+        .then(pokemon => {
+            e.target.reset()
+            console.log(pokemon)
+            return createPokeCard(pokemon)
+        })
+        .then(el => addPokeToCollection(el))
+        .catch(err => console.error(err))
+
+}
+
+async function postPokemon(pokemon) {
+    const url = uri + '/pokemon'
+    const options = {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(pokemon)
+    }
+    const response = await fetch(url, options)
+    const newPokemon = await response.json()
+    return newPokemon
 }
