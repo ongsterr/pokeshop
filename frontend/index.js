@@ -29,7 +29,7 @@ async function fetchPokemon() {
 }
 
 function addPokeToCollection(pokemon) {
-    for (let i = 0; i <= pokemon.length; i++) {
+    for (let i = 0; i < pokemon.length; i++) {
         createPokeCard(pokemon[i]);
     }
 }
@@ -38,7 +38,7 @@ function createPokeCard(pokemon) {
     let li = document.createElement('li');
     li.classList.add('collection-item');
     li.classList.add('avatar');
-    li.dataset.id = pokemon.id;
+    li.dataset.id = pokemon._id;
 
     let name = document.createElement('span');
     name.classList.add('title');
@@ -50,7 +50,7 @@ function createPokeCard(pokemon) {
     li.appendChild(type);
 
     let price = document.createElement('p');
-    type.textContent = `$${(pokemon.price/100).toFixed(2)}`;
+    price.textContent = `$${(pokemon.price/100).toFixed(2)}`;
     li.appendChild(price);
 
     let button = document.createElement('button');
