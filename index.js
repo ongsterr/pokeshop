@@ -3,6 +3,9 @@ const bodyParser = require('body-parser');
 const pokemonRouter = require('./pokemon/pokemonRouter');
 
 const app = express();
+const cors = require('cors');
+
+app.use(cors());
 
 app.use(bodyParser.json());
 
