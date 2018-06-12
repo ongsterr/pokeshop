@@ -1,0 +1,23 @@
+{
+  "name": "pokeshop",
+  "version": "1.0.0",
+  "description": "we sell pokemon",
+  "main": "index.js",
+  "scripts": {
+    "test": "mocha test",
+    "start": "nodemon index.js"
+  },
+  "keywords": [
+    "poke"
+  ],
+  "author": "chris nat jess sveto",
+  "license": "ISC",
+  "dependencies": {
+    "body-parser": "^1.18.3",
+    "express": "^4.16.3",
+    "mongoose": "^5.1.5"
+  },
+  "devDependencies": {
+    "nodemon": "^1.17.5"
+  }
+}
