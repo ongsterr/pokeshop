@@ -1,6 +1,9 @@
 const express = require('express');
 const Pokemon = require('./Pokemon');
 const router = express.Router();
+const cors = require('cors')
+
+app.use(cors())
 
 router.get('/', (req, res) => {
   Pokemon.find()
