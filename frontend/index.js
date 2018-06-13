@@ -29,6 +29,7 @@ async function fetchPokemon() {
 }
 
 function addPokeToCollection(pokemon) {
+    console.log(pokemon.length);
     for (let i = 0; i <= pokemon.length; i++) {
         createPokeCard(pokemon[i]);
     }
