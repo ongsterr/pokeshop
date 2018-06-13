@@ -24,13 +24,11 @@ fetchPokemon()
 async function fetchPokemon() {
     let response = await fetch(uri + '/pokemon');
     let pokemon = response.json();
-    console.log(pokemon);
     return pokemon;
 }
 
 function addPokeToCollection(pokemon) {
-    console.log(pokemon.length);
-    for (let i = 0; i <= pokemon.length; i++) {
+    for (let i = 0; i < pokemon.length; i++) {
         createPokeCard(pokemon[i]);
     }
 }
@@ -74,7 +72,6 @@ function createPokeCard(pokemon) {
 function deletePokemon(e) {
     if (e.target.tagName === 'BUTTON') {
         let li = e.target.parentNode;
-        console.log(e.target);
         let {id} = li.dataset;
 
         deleteRecord(id)
@@ -123,10 +120,8 @@ function submitPokemon(e) {
     postPokemon(pokemon)
         .then(pokemon => {
             e.target.reset()
-            console.log(pokemon)
-            return createPokeCard(pokemon)
+            createPokeCard(pokemon)
         })
-        .then(el => addPokeToCollection(el))
         .catch(err => console.error(err))
 
 }
