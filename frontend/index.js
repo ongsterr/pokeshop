@@ -109,7 +109,6 @@ function submitPokemon(e) {
     selection.classList.add('selected');
     const form = e.target.elements
     const name = form.name.value
-    console.log(form);
     const species = document.querySelector('.selected').innerText;
 
     const CP = form.CP.value
